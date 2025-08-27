@@ -1,0 +1,45 @@
+{
+    "cosmos-installer": {
+       "form": [
+          {
+             "name": "endpoint",
+             "label": "What is your Kubernetes endpoint",
+             "initialValue": "https://127.0.0.1:8080",
+             "type": "text"
+          }
+       ],
+       "post-install": [
+          {
+             "type": "warning",
+             "label": "Hello World"
+          }
+       ]
+    },
+    "services": {
+       "{ServiceName}": {
+          "image": "rancher/rancher:latest",
+          "container_name": "{ServiceName}",
+          "restart": "unless-stopped",
+          "environment": [
+             "EULA=TRUE",
+          ],
+          "ports": [
+             "{Context.port}:80/tcp",
+             "{Context.port}:443/tcp"
+          ],
+          "volumes": [
+             {
+                "source": "{ServiceName}-data",
+                "target": "/var/lib/rancher",
+                "type": "volume"
+             }
+          ],
+          "labels": {
+             "cosmos-auto-update": "true",
+             "cosmos-icon": "https://jorgon.github.io/jorgon/servapps/Rancher/icon.png"
+          },
+          "stdin_open": true,
+          "tty": true
+       }
+    }
+ }
